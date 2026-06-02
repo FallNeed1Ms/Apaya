@@ -53,6 +53,25 @@ func UpdatePencapaian(arr *[NMAX]pekerja, jumlah *int) {
 	fmt.Scan(&arr[nomor-1].namaPekerja, &arr[nomor-1].namaTugas, &arr[nomor-1].mood, &arr[nomor-1].progress, &arr[nomor-1].skorStress)
 }
 
+func HapusPencapaian(arr *[NMAX]pekerja, jumlah *int) {
+	if *jumlah == 0 {
+		fmt.Println("Belum ada data pencapaian")
+		return 
+	}
+	var nomor int
+	fmt.Print("Masukkan nomor pencapaian yang ingin dihapus: ")
+	fmt.Scan(&nomor)
+	if nomor < 1 || nomor > *jumlah {
+		fmt.Println("Nomor pencapaian tidak valid")
+		return 
+	}
+	indexhapus := nomor - 1
+	for i := indexhapus; i < *jumlah-1; i++ {
+		arr[i] = arr[i+1]
+	}
+	*jumlah--
+}
+
 func main() {
 	var pilihan int
 	var data [NMAX]pekerja
@@ -63,12 +82,19 @@ func main() {
 		fmt.Println("1. Tambah Pencapaian")
 		fmt.Println("2. Lihat Pencapaian")
 		fmt.Println("3. Update Pencapaian")
+		fmt.Println("4. Hapus Pencapaian")
 		fmt.Println("0. Keluar")
 		fmt.Print("Pilih menu: ")
 		fmt.Scan(&pilihan)
 		switch pilihan {
 			case 1:
 				TambahPencapaian(&data, &jumlahData)
+			case 2:
+				OutputPencapaian(&data, &jumlahData)
+			case 3:
+				UpdatePencapaian(&data, &jumlahData)
+			case 4:
+				HapusPencapaian(&data, &jumlahData)	
 			case 0:
 				return
 			default:
